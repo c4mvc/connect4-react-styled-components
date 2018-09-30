@@ -103,7 +103,17 @@ class App extends Component {
               </div> */}
 
               <div>
-                
+                {this.state.gameZone.map((row, index) => {
+                  return (
+                    <div key={index} className="clearfix area-width">
+                      {row.map((cell, i) => {
+                        return (
+                          <div className="box-cell">{/* <h3>a</h3> */}</div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
 
                 {/* <div
                   className="clearfix area-width"
