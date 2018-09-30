@@ -2,10 +2,54 @@ import React, { Component } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
 
+const playerType = {
+  One: 1,
+  Two: 2,
+  None: 0
+};
+
+const totalRows = 6;
+const totalColumns = 7;
+
+function gameZoneCell(player, rowIndex, columnIndex) {
+  this.player = player;
+  this.rowIndex = rowIndex;
+  this.columnIndex = columnIndex;
+}
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gameZone: [],
+      currentRow: undefined,
+      currentColumn: undefined,
+      currentPlayer: playerType.One,
+      gameCursor: new Array(totalColumns)
+    };
+  }
+
+  buildGameZone() {
+    let gameZone = [];
+    for (var row = 0; row < totalRows; row++) {
+      gameZone[row] = new Array();
+      for (var column = 0; column < totalColumns; column++) {
+        gameZone[row].push(new gameZoneCell(playerType.None, row, column));
+      }
+    }
+    return gameZone;
+  }
+
+  componentDidMount() {
+    const gameZone = this.buildGameZone();
+    this.setState({ gameZone: gameZone });
+  }
+
+  // buildGameZone();
+
   render() {
     return (
-      <div classNameName="container">
+      <div className="container">
         <div className="row">
           <h1 className="game-header">Connect4 Game</h1>
         </div>
@@ -36,9 +80,9 @@ class App extends Component {
         <div className="row">
           <div className="row">
             <div className="col-xs-9">
-              <div className="bottom-buffer">
+              {/* <div className="bottom-buffer">
                 <div className="clearfix area-width">
-                  {/* <div
+                  <div
                     className="cursor-area"
                     ng-mouseover="moveCursor(cursor)"
                     ng-click="dropDiscToZone(cursor)"
@@ -54,12 +98,17 @@ class App extends Component {
                         ng-if="cursor.player === playerType.Two"
                       />
                     </div>
-                  </div> */}
+                  </div>
                 </div>
-              </div>
+              </div> */}
 
               <div>
-                {/* <div className="clearfix area-width" ng-repeat="row in gameZone">
+                
+
+                {/* <div
+                  className="clearfix area-width"
+                  ng-repeat="row in gameZone"
+                >
                   <div ng-repeat="cell in row" className="box-cell">
                     <div>
                       <div
