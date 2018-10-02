@@ -104,6 +104,24 @@ class App extends Component {
         <div className="row">
           <div className="row">
             <div className="col-xs-9">
+              <div className="bottom-buffer">
+                <div className="clearfix area-width">
+                  {this.state.gameCursor.map((cursor, index) => {
+                    return (
+                      <div className="cursor-area">
+                        <div style={{ verticalAlign: "middle" }}>
+                          {cursor.player === playerType.One && (
+                            <div className="circleBase circle-red" />
+                          )}
+                          {cursor.player === playerType.Two && (
+                            <div className="circleBase circle-yellow" />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
               {/* <div className="bottom-buffer">
                 <div className="clearfix area-width">
                   <div
