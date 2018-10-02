@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
+import _ from "underscore";
 
 const playerType = {
   One: 1,
@@ -15,6 +16,12 @@ function gameZoneCell(player, rowIndex, columnIndex) {
   this.player = player;
   this.rowIndex = rowIndex;
   this.columnIndex = columnIndex;
+}
+
+function GameCursor(isAvailable, columnIndex, player) {
+  this.isAvailable = isAvailable;
+  this.columnIndex = columnIndex;
+  this.player = player;
 }
 
 class App extends Component {
@@ -40,9 +47,26 @@ class App extends Component {
     return gameZone;
   }
 
+  loadGameCursor(columnIndex) {
+    let { gameCursor } = this.state;
+
+    _.each(gameCursor, function(cursor, index) {
+      var cursorObj = new GameCursor(false, index, playerType.None);
+      gameCursor[index] = cursorObj;
+    });
+    gameCursor[columnIndex] = new GameCursor(
+      false,
+      columnIndex,
+      this.state.currentPlayer
+    );
+    const lastCursor = _.first(gameCursor);
+    return { gameCursor, lastCursor };
+  }
+
   componentDidMount() {
     const gameZone = this.buildGameZone();
-    this.setState({ gameZone: gameZone });
+    const { gameCursor, lastCursor } = this.loadGameCursor(0);
+    this.setState({ gameZone, gameCursor, lastCursor });
   }
 
   // buildGameZone();
