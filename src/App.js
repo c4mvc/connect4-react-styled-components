@@ -31,6 +31,7 @@ class App extends Component {
       gameZone: [],
       currentRow: undefined,
       currentColumn: undefined,
+      movesStorage: [],
       currentPlayer: playerType.One,
       gameCursor: new Array(totalColumns)
     };
@@ -81,6 +82,57 @@ class App extends Component {
     this.setState({ lastCursor: cursor });
   }
 
+  availableColumns() {
+    var movesArray = new Array();
+    for (var i = 0; i < totalColumns; i++) {
+      if (this.state.gameZone[0][i].player === 0) {
+        movesArray.push(i);
+      }
+    }
+    return movesArray;
+  }
+
+  availableFirstRow(col, player) {
+    for (var i = 0; i < totalRows; i++) {
+      if (this.state.gameZone[i][col].player !== 0) {
+        break;
+      }
+    }
+    return i - 1;
+  }
+
+  moveAndPlaceDisk(currentColumn) {
+    const { currentPlayer, gameZone } = this.state;
+    const currentRow = this.availableFirstRow(currentColumn, currentPlayer);
+    let gameZoneNew = [...gameZone];
+    gameZoneNew[currentRow][currentColumn] = new gameZoneCell(
+      currentPlayer,
+      currentRow,
+      currentColumn
+    );
+
+    this.setState({ gameZone: gameZoneNew });
+
+    return { currentRow };
+  }
+
+  dropDiscToZone(cursor) {
+    console.log("dropDiscToZone", cursor);
+    const { movesStorage, currentPlayer } = this.state;
+    const availableColumns = this.availableColumns();
+    if (availableColumns.indexOf(cursor.columnIndex) != -1) {
+      const currentColumn = cursor.columnIndex;
+      const { currentRow } = this.moveAndPlaceDisk(currentColumn);
+      const lastMove = new gameZoneCell(
+        currentPlayer,
+        currentRow,
+        currentColumn
+      );
+      const movesStorageNew = [...movesStorage, lastMove];
+      this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
+    }
+  }
+
   // buildGameZone();
 
   render() {
@@ -120,7 +172,11 @@ class App extends Component {
                 <div className="clearfix area-width">
                   {this.state.gameCursor.map((cursor, index) => {
                     return (
-                      <div className="cursor-area" onMouseOver={()=> this.moveCursor(cursor)}>
+                      <div
+                        className="cursor-area"
+                        onMouseOver={() => this.moveCursor(cursor)}
+                        onClick={() => this.dropDiscToZone(cursor)}
+                      >
                         <div style={{ verticalAlign: "middle" }}>
                           {cursor.player === playerType.One && (
                             <div className="circleBase circle-red" />
@@ -162,7 +218,14 @@ class App extends Component {
                     <div key={index} className="clearfix area-width">
                       {row.map((cell, i) => {
                         return (
-                          <div className="box-cell">{/* <h3>a</h3> */}</div>
+                          <div className="box-cell">
+                            {cell.player === playerType.One && (
+                              <div className="circleBase circle-red" />
+                            )}
+                            {cell.player === playerType.Two && (
+                              <div className="circleBase circle-yellow" />
+                            )}
+                          </div>
                         );
                       })}
                     </div>
