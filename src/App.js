@@ -60,13 +60,25 @@ class App extends Component {
       this.state.currentPlayer
     );
     const lastCursor = _.first(gameCursor);
-    return { gameCursor, lastCursor };
+    this.setState({ gameCursor, lastCursor });
+    // return { gameCursor, lastCursor };
   }
 
   componentDidMount() {
     const gameZone = this.buildGameZone();
-    const { gameCursor, lastCursor } = this.loadGameCursor(0);
-    this.setState({ gameZone, gameCursor, lastCursor });
+    this.loadGameCursor(0);
+    // const { gameCursor, lastCursor } = this.loadGameCursor(0);
+    // this.setState({ gameZone, gameCursor, lastCursor });
+    this.setState({ gameZone });
+  }
+
+  moveCursor(cursor) {
+    if (this.state.lastCursor.columnIndex == cursor.columnIndex) {
+      return;
+    }
+
+    this.loadGameCursor(cursor.columnIndex);
+    this.setState({ lastCursor: cursor });
   }
 
   // buildGameZone();
@@ -108,7 +120,7 @@ class App extends Component {
                 <div className="clearfix area-width">
                   {this.state.gameCursor.map((cursor, index) => {
                     return (
-                      <div className="cursor-area">
+                      <div className="cursor-area" onMouseOver={()=> this.moveCursor(cursor)}>
                         <div style={{ verticalAlign: "middle" }}>
                           {cursor.player === playerType.One && (
                             <div className="circleBase circle-red" />
