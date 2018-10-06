@@ -219,7 +219,12 @@ class App extends Component {
                       {row.map((cell, i) => {
                         return (
                           <div className="box-cell">
-                            
+                            {cell.player === playerType.One && (
+                              <div className="circleBase circle-red" />
+                            )}
+                            {cell.player === playerType.Two && (
+                              <div className="circleBase circle-yellow" />
+                            )}
                           </div>
                         );
                       })}
