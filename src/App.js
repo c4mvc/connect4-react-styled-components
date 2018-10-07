@@ -130,6 +130,31 @@ class App extends Component {
       );
       const movesStorageNew = [...movesStorage, lastMove];
       this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
+
+      this.checkForWin();
+    }
+  }
+
+  getNextPlayer() {
+    if (this.state.currentPlayer === playerType.One) {
+      return playerType.Two;
+    }
+    return playerType.One;
+  }
+
+  toggleCursorOfPlayer() {
+    this.loadGameCursor(0);
+    const currentPlayer = this.getNextPlayer();
+    let { gameCursor } = this.state;
+    gameCursor[0] = new GameCursor(false, 0, currentPlayer);
+    this.setState({ currentPlayer, gameCursor });
+  }
+
+  checkForWin() {
+    if (false) {
+      // gameLogic.checkWin($scope)
+    } else {
+      this.toggleCursorOfPlayer();
     }
   }
 
