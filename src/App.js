@@ -160,7 +160,13 @@ class App extends Component {
         currentPlayer
       })
     ) {
-      
+      var winPlayer = currentPlayer; // this.state.currentPlayer;
+
+      setTimeout(()=> {
+        alert("Player " + winPlayer + " Wins");
+        this.buildGameZone();
+        this.loadGameCursor(0);
+      }, 300);
     } else {
       this.toggleCursorOfPlayer();
     }
