@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
 import _ from "underscore";
+import checkWin from "./game-logic";
 
 const playerType = {
   One: 1,
@@ -113,7 +114,7 @@ class App extends Component {
 
     this.setState({ gameZone: gameZoneNew });
 
-    return { currentRow };
+    return { currentRow, gameZone: gameZoneNew };
   }
 
   dropDiscToZone(cursor) {
@@ -122,7 +123,7 @@ class App extends Component {
     const availableColumns = this.availableColumns();
     if (availableColumns.indexOf(cursor.columnIndex) != -1) {
       const currentColumn = cursor.columnIndex;
-      const { currentRow } = this.moveAndPlaceDisk(currentColumn);
+      const { currentRow, gameZone } = this.moveAndPlaceDisk(currentColumn);
       const lastMove = new gameZoneCell(
         currentPlayer,
         currentRow,
@@ -131,7 +132,7 @@ class App extends Component {
       const movesStorageNew = [...movesStorage, lastMove];
       this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
 
-      this.checkForWin();
+      this.checkForWin(gameZone, currentPlayer);
     }
   }
 
@@ -150,9 +151,24 @@ class App extends Component {
     this.setState({ currentPlayer, gameCursor });
   }
 
-  checkForWin() {
-    if (false) {
-      // gameLogic.checkWin($scope)
+  checkForWin(gameZone, currentPlayer) {
+    if (
+      checkWin({
+        totalRows,
+        totalColumns,
+        gameZone,
+        currentPlayer
+      })
+    ) {
+      var winPlayer = currentPlayer; // this.state.currentPlayer;
+      const self = this;
+
+      setTimeout(() => {
+        alert("Player " + winPlayer + " Wins");
+        const gameZoneNew = self.buildGameZone();
+        self.loadGameCursor(0);
+        this.setState({ gameZone: gameZoneNew });
+      }, 300);
     } else {
       this.toggleCursorOfPlayer();
     }
