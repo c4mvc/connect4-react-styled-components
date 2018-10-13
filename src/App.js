@@ -161,11 +161,13 @@ class App extends Component {
       })
     ) {
       var winPlayer = currentPlayer; // this.state.currentPlayer;
+      const self = this;
 
-      setTimeout(()=> {
+      setTimeout(() => {
         alert("Player " + winPlayer + " Wins");
-        this.buildGameZone();
-        this.loadGameCursor(0);
+        const gameZoneNew = self.buildGameZone();
+        self.loadGameCursor(0);
+        this.setState({ gameZone: gameZoneNew });
       }, 300);
     } else {
       this.toggleCursorOfPlayer();
