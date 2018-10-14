@@ -36,6 +36,14 @@ class App extends Component {
       currentPlayer: playerType.One,
       gameCursor: new Array(totalColumns)
     };
+    this.startNewGame = this.startNewGame.bind(this);
+  }
+
+  startNewGame() {
+    console.log("startNewGame", this.state.currentPlayer);
+    const gameZone = this.buildGameZone();
+    this.loadGameCursor(0);
+    this.setState({ gameZone, movesStorage: [], currentPlayer: playerType.One });
   }
 
   buildGameZone() {
@@ -184,7 +192,7 @@ class App extends Component {
         </div>
 
         <div className="row">
-          <button className="btn-danger btn-lg" ng-click="startNewGame()">
+          <button className="btn-danger btn-lg" onClick={this.startNewGame}>
             New Game
           </button>
           <button className="btn-primary btn-sm" ng-click="undoLastMove()">
