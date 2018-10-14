@@ -36,6 +36,32 @@ class App extends Component {
       currentPlayer: playerType.One,
       gameCursor: new Array(totalColumns)
     };
+    this.startNewGame = this.startNewGame.bind(this);
+    this.undoLastMove = this.undoLastMove.bind(this);
+  }
+
+  startNewGame() {
+    console.log("startNewGame", this.state.currentPlayer);
+    const gameZone = this.buildGameZone();
+    this.loadGameCursor(0);
+    this.setState({
+      gameZone,
+      movesStorage: [],
+      currentPlayer: playerType.One
+    });
+  }
+
+  undoLastMove() {
+    const { lastMove } = this.state;
+    if (lastMove) {
+      const { gameZone } = this.state;
+      let gameZoneNew = [...gameZone];
+      gameZoneNew[lastMove.rowIndex][lastMove.columnIndex].player =
+        playerType.None;
+
+      this.toggleCursorOfPlayer();
+      this.setState({ gameZone: gameZoneNew, lastMove: undefined });
+    }
   }
 
   buildGameZone() {
@@ -184,10 +210,10 @@ class App extends Component {
         </div>
 
         <div className="row">
-          <button className="btn-danger btn-lg" ng-click="startNewGame()">
+          <button className="btn-danger btn-lg" onClick={this.startNewGame}>
             New Game
           </button>
-          <button className="btn-primary btn-sm" ng-click="undoLastMove()">
+          <button className="btn-primary btn-sm" onClick={this.undoLastMove}>
             Undo
           </button>
           <button className="btn-success btn-sm" ng-click="replayGame()">
