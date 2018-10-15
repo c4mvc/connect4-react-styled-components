@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import _ from "underscore";
 import checkWin from "./game-logic";
+import { getLastGame, postMoves } from "./game-storage";
 
 const playerType = {
   One: 1,
@@ -156,9 +157,14 @@ class App extends Component {
         currentColumn
       );
       const movesStorageNew = [...movesStorage, lastMove];
+      console.log("movesStorageNew", movesStorageNew);
       this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
 
-      this.checkForWin(gameZone, currentPlayer);
+      this.checkForWin(
+        gameZone,
+        currentPlayer,
+        movesStorageNew
+      );
     }
   }
 
@@ -177,7 +183,7 @@ class App extends Component {
     this.setState({ currentPlayer, gameCursor });
   }
 
-  checkForWin(gameZone, currentPlayer) {
+  checkForWin(gameZone, currentPlayer, movesStorage) {
     if (
       checkWin({
         totalRows,
@@ -193,6 +199,8 @@ class App extends Component {
         alert("Player " + winPlayer + " Wins");
         const gameZoneNew = self.buildGameZone();
         self.loadGameCursor(0);
+        console.log("movesStorage", movesStorage);
+        postMoves(movesStorage);
         this.setState({ gameZone: gameZoneNew });
       }, 300);
     } else {
