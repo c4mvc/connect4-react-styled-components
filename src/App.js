@@ -39,6 +39,7 @@ class App extends Component {
     };
     this.startNewGame = this.startNewGame.bind(this);
     this.undoLastMove = this.undoLastMove.bind(this);
+    this.replayGame = this.replayGame.bind(this);
   }
 
   startNewGame() {
