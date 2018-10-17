@@ -293,27 +293,6 @@ class App extends Component {
                   })}
                 </div>
               </div>
-              {/* <div className="bottom-buffer">
-                <div className="clearfix area-width">
-                  <div
-                    className="cursor-area"
-                    ng-mouseover="moveCursor(cursor)"
-                    ng-click="dropDiscToZone(cursor)"
-                    ng-repeat="cursor in gameCursor"
-                  >
-                    <div style="vertical-align: middle">
-                      <div
-                        className="circleBase circle-red"
-                        ng-if="cursor.player === playerType.One"
-                      />
-                      <div
-                        className="circleBase circle-yellow"
-                        ng-if="cursor.player === playerType.Two"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
 
               <div>
                 {this.state.gameZone.map((row, index) => {
@@ -334,24 +313,6 @@ class App extends Component {
                     </div>
                   );
                 })}
-
-                {/* <div
-                  className="clearfix area-width"
-                  ng-repeat="row in gameZone"
-                >
-                  <div ng-repeat="cell in row" className="box-cell">
-                    <div>
-                      <div
-                        className="circleBase circle-red"
-                        ng-if="cell.player === playerType.One"
-                      />
-                      <div
-                        className="circleBase circle-yellow"
-                        ng-if="cell.player === playerType.Two"
-                      />
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
