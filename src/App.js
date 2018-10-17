@@ -65,6 +65,33 @@ class App extends Component {
     }
   }
 
+  replayGame() {
+    const gameZone = this.buildGameZone();
+    this.loadGameCursor(0);
+    const self = this;
+
+    const moves = getLastGame();
+    if (!moves || moves.length === 0) {
+      return;
+    }
+    let i = 0;
+    let gameZoneNew = [...gameZone];
+    function drawMovesForReplay() {
+      setTimeout(function() {
+        var move = moves[i];
+        gameZoneNew[move.rowIndex][move.columnIndex].player = move.player;
+
+        self.setState({ gameZone: gameZoneNew });
+
+        i++;
+        if (i < moves.length) {
+          drawMovesForReplay();
+        }
+      }, 1100);
+    }
+    drawMovesForReplay();
+  }
+
   buildGameZone() {
     let gameZone = [];
     for (var row = 0; row < totalRows; row++) {
@@ -224,7 +251,7 @@ class App extends Component {
           <button className="btn-primary btn-sm" onClick={this.undoLastMove}>
             Undo
           </button>
-          <button className="btn-success btn-sm" ng-click="replayGame()">
+          <button className="btn-success btn-sm" onClick={this.replayGame}>
             Replay
           </button>
         </div>
