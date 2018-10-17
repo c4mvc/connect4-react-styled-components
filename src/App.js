@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import _ from "underscore";
 import checkWin from "./game-logic";
+import { getLastGame, postMoves } from "./game-storage";
 
 const playerType = {
   One: 1,
@@ -38,6 +39,7 @@ class App extends Component {
     };
     this.startNewGame = this.startNewGame.bind(this);
     this.undoLastMove = this.undoLastMove.bind(this);
+    this.replayGame = this.replayGame.bind(this);
   }
 
   startNewGame() {
@@ -62,6 +64,33 @@ class App extends Component {
       this.toggleCursorOfPlayer();
       this.setState({ gameZone: gameZoneNew, lastMove: undefined });
     }
+  }
+
+  replayGame() {
+    const gameZone = this.buildGameZone();
+    this.loadGameCursor(0);
+    const self = this;
+
+    const moves = getLastGame();
+    if (!moves || moves.length === 0) {
+      return;
+    }
+    let i = 0;
+    let gameZoneNew = [...gameZone];
+    function drawMovesForReplay() {
+      setTimeout(function() {
+        var move = moves[i];
+        gameZoneNew[move.rowIndex][move.columnIndex].player = move.player;
+
+        self.setState({ gameZone: gameZoneNew });
+
+        i++;
+        if (i < moves.length) {
+          drawMovesForReplay();
+        }
+      }, 1100);
+    }
+    drawMovesForReplay();
   }
 
   buildGameZone() {
@@ -156,9 +185,14 @@ class App extends Component {
         currentColumn
       );
       const movesStorageNew = [...movesStorage, lastMove];
+      console.log("movesStorageNew", movesStorageNew);
       this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
 
-      this.checkForWin(gameZone, currentPlayer);
+      this.checkForWin(
+        gameZone,
+        currentPlayer,
+        movesStorageNew
+      );
     }
   }
 
@@ -177,7 +211,7 @@ class App extends Component {
     this.setState({ currentPlayer, gameCursor });
   }
 
-  checkForWin(gameZone, currentPlayer) {
+  checkForWin(gameZone, currentPlayer, movesStorage) {
     if (
       checkWin({
         totalRows,
@@ -193,6 +227,8 @@ class App extends Component {
         alert("Player " + winPlayer + " Wins");
         const gameZoneNew = self.buildGameZone();
         self.loadGameCursor(0);
+        console.log("movesStorage", movesStorage);
+        postMoves(movesStorage);
         this.setState({ gameZone: gameZoneNew });
       }, 300);
     } else {
@@ -216,7 +252,7 @@ class App extends Component {
           <button className="btn-primary btn-sm" onClick={this.undoLastMove}>
             Undo
           </button>
-          <button className="btn-success btn-sm" ng-click="replayGame()">
+          <button className="btn-success btn-sm" onClick={this.replayGame}>
             Replay
           </button>
         </div>
