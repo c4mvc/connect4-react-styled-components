@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { playerType } from "./constants";
 
-class GameZone extends PureComponent {
+class GameZone extends Component {
   render() {
     return (
       <div>
