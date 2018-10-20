@@ -4,15 +4,10 @@ import "./App.css";
 import _ from "underscore";
 import checkWin from "./game-logic";
 import { getLastGame, postMoves } from "./game-storage";
-
-const playerType = {
-  One: 1,
-  Two: 2,
-  None: 0
-};
-
-const totalRows = 6;
-const totalColumns = 7;
+import Header from "./Header";
+import Buttons from "./Buttons";
+import GameArea from "./GameArea";
+import { playerType, totalColumns, totalRows } from "./constants";
 
 function gameZoneCell(player, rowIndex, columnIndex) {
   this.player = player;
@@ -188,11 +183,7 @@ class App extends Component {
       console.log("movesStorageNew", movesStorageNew);
       this.setState({ currentColumn, lastMove, movesStorage: movesStorageNew });
 
-      this.checkForWin(
-        gameZone,
-        currentPlayer,
-        movesStorageNew
-      );
+      this.checkForWin(gameZone, currentPlayer, movesStorageNew);
     }
   }
 
@@ -239,23 +230,16 @@ class App extends Component {
   // buildGameZone();
 
   render() {
+    console.log("", this.state.gameZone, this.state.gameCursor);
     return (
       <div className="container">
-        <div className="row">
-          <h1 className="game-header">Connect4 Game</h1>
-        </div>
+        <Header />
 
-        <div className="row">
-          <button className="btn-danger btn-lg" onClick={this.startNewGame}>
-            New Game
-          </button>
-          <button className="btn-primary btn-sm" onClick={this.undoLastMove}>
-            Undo
-          </button>
-          <button className="btn-success btn-sm" onClick={this.replayGame}>
-            Replay
-          </button>
-        </div>
+        <Buttons
+          startNewGame={this.startNewGame}
+          undoLastMove={this.undoLastMove}
+          replayGame={this.replayGame}
+        />
 
         <div className="row">
           <div className="col-md-3">
@@ -268,55 +252,12 @@ class App extends Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="row">
-            <div className="col-xs-9">
-              <div className="bottom-buffer">
-                <div className="clearfix area-width">
-                  {this.state.gameCursor.map((cursor, index) => {
-                    return (
-                      <div
-                        className="cursor-area"
-                        onMouseOver={() => this.moveCursor(cursor)}
-                        onClick={() => this.dropDiscToZone(cursor)}
-                      >
-                        <div style={{ verticalAlign: "middle" }}>
-                          {cursor.player === playerType.One && (
-                            <div className="circleBase circle-red" />
-                          )}
-                          {cursor.player === playerType.Two && (
-                            <div className="circleBase circle-yellow" />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div>
-                {this.state.gameZone.map((row, index) => {
-                  return (
-                    <div key={index} className="clearfix area-width">
-                      {row.map((cell, i) => {
-                        return (
-                          <div className="box-cell">
-                            {cell.player === playerType.One && (
-                              <div className="circleBase circle-red" />
-                            )}
-                            {cell.player === playerType.Two && (
-                              <div className="circleBase circle-yellow" />
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+        <GameArea
+          gameCursor={this.state.gameCursor}
+          gameZone={this.state.gameZone}
+          moveCursor={this.moveCursor}
+          dropDiscToZone={this.dropDiscToZone}
+        />
       </div>
     );
   }
