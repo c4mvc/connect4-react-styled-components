@@ -35,6 +35,8 @@ class App extends Component {
     this.startNewGame = this.startNewGame.bind(this);
     this.undoLastMove = this.undoLastMove.bind(this);
     this.replayGame = this.replayGame.bind(this);
+    this.moveCursor = this.moveCursor.bind(this);
+    this.dropDiscToZone = this.dropDiscToZone.bind(this);
   }
 
   startNewGame() {
