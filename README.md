@@ -12,4 +12,4 @@ On the Terminal -
 
 You can browse the app at `http://localhost:3000`
 
-![Alt text](/app.png?raw=true "connect4-hotseat-webrtc")
+![Alt text](/connectt4-react.png?raw=true "connect4-hotseat-webrtc")
