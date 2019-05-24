@@ -1,25 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-
-const CircleBase = styled.div`
-  border-radius: 50%;
-`;
-
-const CircleRed = styled(CircleBase)`
-  width: 50px;
-  height: 50px;
-  background: red;
-  border: 3px solid red;
-  margin: auto;
-`;
-
-const CircleYellow = styled(CircleBase)`
-  width: 50px;
-  height: 50px;
-  background: yellow;
-  border: 3px solid yellow;
-  margin: auto;
-`;
+import { CircleRed, CircleYellow } from "./styles";
 
 export default class PlayerLabel extends Component {
   render() {
