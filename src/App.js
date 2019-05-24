@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 // import logo from "./logo.svg";
 import "./App.css";
 import _ from "underscore";
@@ -8,6 +9,26 @@ import Header from "./Header";
 import Buttons from "./Buttons";
 import GameArea from "./GameArea";
 import { playerType, totalColumns, totalRows } from "./constants";
+
+const CircleBase = styled.div`
+  border-radius: 50%;
+`;
+
+const CircleRed = styled(CircleBase)`
+  width: 50px;
+  height: 50px;
+  background: red;
+  border: 3px solid red;
+  margin: auto;
+`;
+
+const CircleYellow = styled(CircleBase)`
+  width: 50px;
+  height: 50px;
+  background: yellow;
+  border: 3px solid yellow;
+  margin: auto;
+`;
 
 function gameZoneCell(player, rowIndex, columnIndex) {
   this.player = player;
@@ -246,11 +267,11 @@ class App extends Component {
         <div className="row">
           <div className="col-md-3">
             <h3>Player1</h3>
-            <div className="circleBase circle-red-small" />
+            <CircleRed />
           </div>
           <div className="col-md-3">
             <h3>Player2</h3>
-            <div className="circleBase circle-yellow-small" />
+            <CircleYellow />
           </div>
         </div>
 
