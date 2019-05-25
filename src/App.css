@@ -2,15 +2,6 @@
   height: 75px;
 }
 
-.game-header {
-  color: red;
-  font-family: Verdana;
-  font-size: 3em;
-  background-color: lavender;
-  box-shadow: 5px 5px 5px blueviolet;
-  display: inline-block;
-}
-
 .cursor-area {
   width: 70px;
   height: 70px;
