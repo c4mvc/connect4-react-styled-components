@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 // import logo from "./logo.svg";
 import "./App.css";
 import _ from "underscore";
@@ -8,6 +9,7 @@ import Header from "./Header";
 import Buttons from "./Buttons";
 import GameArea from "./GameArea";
 import { playerType, totalColumns, totalRows } from "./constants";
+import PlayerLabel from "./PlayerLabel";
 
 function gameZoneCell(player, rowIndex, columnIndex) {
   this.player = player;
@@ -243,16 +245,7 @@ class App extends Component {
           replayGame={this.replayGame}
         />
 
-        <div className="row">
-          <div className="col-md-3">
-            <h3>Player1</h3>
-            <div className="circleBase circle-red-small" />
-          </div>
-          <div className="col-md-3">
-            <h3>Player2</h3>
-            <div className="circleBase circle-yellow-small" />
-          </div>
-        </div>
+        <PlayerLabel />
 
         <GameArea
           gameCursor={this.state.gameCursor}

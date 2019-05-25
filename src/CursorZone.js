@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { playerType } from "./constants";
+import { CircleRed, CircleYellow } from "./styles";
 
 class CursorZone extends Component {
   render() {
@@ -18,10 +19,10 @@ class CursorZone extends Component {
               >
                 <div style={{ verticalAlign: "middle" }}>
                   {cursor.player === playerType.One && (
-                    <div className="circleBase circle-red" />
+                    <CircleRed />
                   )}
                   {cursor.player === playerType.Two && (
-                    <div className="circleBase circle-yellow" />
+                    <CircleYellow />
                   )}
                 </div>
               </div>

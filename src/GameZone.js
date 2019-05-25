@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { playerType } from "./constants";
+import { CircleRed, CircleYellow } from "./styles";
 
 class GameZone extends Component {
   render() {
@@ -12,10 +13,10 @@ class GameZone extends Component {
                 return (
                   <div className="box-cell">
                     {cell.player === playerType.One && (
-                      <div className="circleBase circle-red" />
+                      <CircleRed />
                     )}
                     {cell.player === playerType.Two && (
-                      <div className="circleBase circle-yellow" />
+                      <CircleYellow />
                     )}
                   </div>
                 );
